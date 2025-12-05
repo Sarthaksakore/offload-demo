@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Carbon World Map{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2> Global Carbon Intensity Map</h2>
+    <p>Visualize real-time carbon intensity across major electricity zones using ElectricityMaps API.</p>
+    <small>Data provided by <a href="https://app.electricitymaps.com/map/live/fifteen_minutes" target="_blank">ElectricityMaps.com</a></small>
+</div>
+
+<div class="card-wide">
+    <div class="map-controls">
+        <button class="btn btn-secondary" onclick="refreshMapData()">
+            <i class="fas fa-sync-alt"></i> Refresh Map Data
+        </button>
+        <div class="carbon-scale map-legend">
+            <span>Carbon Scale:</span>
+            <div class="legend-item" style="background: #22c55e;">🟢 0-100</div>
+            <div class="legend-item" style="background: #eab308;">🟡 100-300</div>
+            <div class="legend-item" style="background: #f97316;">🟠 300-500</div>
+            <div class="legend-item" style="background: #ef4444;">🔴 500+</div>
+        </div>
+    </div>
+    <div id="carbon-map" style="height: 600px; border-radius: 10px; overflow: hidden;"></div>
+</div>
+
+<div class="card-wide">
+    <h3>📍 Zone Details</h3>
+    <div id="zone-details" style="max-height: 400px; overflow-y: auto;">
+        <p>Loading zone data...</p>
+    </div>
+</div>
+
+<div class="card-wide">
+    <h3>ℹ️ About This Map</h3>
+    <p>
+        This interactive map displays real-time carbon intensity data for major electricity zones worldwide. 
+        Each zone is color-coded based on its current carbon intensity:
+    </p>
+    <ul>
+        <li><strong>Green (0-100 gCO2/kWh):</strong> Very clean - ideal for running tasks</li>
+        <li><strong>Yellow (100-300 gCO2/kWh):</strong> Moderate - acceptable for most tasks</li>
+        <li><strong>Orange (300-500 gCO2/kWh):</strong> High - consider alternative regions</li>
+        <li><strong>Red (500+ gCO2/kWh):</strong> Very high - avoid if possible</li>
+    </ul>
+    <p>
+        <strong>Note:</strong> The map shows major zones where we have ElectricityMaps API access. 
+        Click on markers to see detailed carbon intensity information for each region.
+    </p>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock %}

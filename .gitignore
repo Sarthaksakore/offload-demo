@@ -1,1 +1,13 @@
 venv/
+**/venv/
+__pycache__/
+*.pyc
+.env
+*.zip
+*.joblib
+frontend/uploads/
+frontend/outputs/
+frontend/reports/
+frontend/tempCodeRunnerFile.py
+**/tempCodeRunnerFile.py
+task/output/

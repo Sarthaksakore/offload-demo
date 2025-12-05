@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Carbon Monitor{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2>🌍 Carbon Intensity Monitor</h2>
+    <p>Analyze historical carbon data to find the optimal time and region for your tasks.</p>
+</div>
+
+<div class="card-wide">
+    <h3> Regional Carbon Intensity (Past 24 Hours)</h3>
+    <div class="chart-controls">
+        <label for="chart-region">Select Region:</label>
+        <select id="chart-region" class="form-control" onchange="loadHistoricalData(this.value)">
+            <option value="IN-WE">India West (IN-WE)</option>
+            <option value="SE-SE4">Sweden (SE-SE4) - Stockholm</option>
+        </select>
+        <button class="btn btn-secondary" onclick="loadHistoricalData(document.getElementById('chart-region').value)">
+            <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+    </div>
+    <div class="chart-container">
+        <canvas id="historicalCarbonChart"></canvas>
+    </div>
+</div>
+
+<div class="carbon-display-grid">
+    <div class="card carbon-main">
+        <h3>Current Carbon Intensity</h3>
+        <div id="current-carbon-display">
+            <div class="loader"></div>
+            <p>Loading real-time data...</p>
+        </div>
+    </div>
+    <div class="card">
+        <h3>📊 Carbon Scale Guide</h3>
+        <div class="carbon-scale">
+            <div class="scale-item scale-excellent">
+                <span class="scale-icon">🟢</span>
+                <strong>0-100 gCO2/kWh</strong>
+                <p>Excellent - Very clean grid</p>
+            </div>
+            <div class="scale-item scale-good">
+                <span class="scale-icon">🟡</span>
+                <strong>100-300 gCO2/kWh</strong>
+                <p>Good - Moderate carbon</p>
+            </div>
+            <div class="scale-item scale-high">
+                <span class="scale-icon">🟠</span>
+                <strong>300-500 gCO2/kWh</strong>
+                <p>High - Consider delaying tasks</p>
+            </div>
+            <div class="scale-item scale-very-high">
+                <span class="scale-icon">🔴</span>
+                <strong>500+ gCO2/kWh</strong>
+                <p>Very High - Avoid heavy tasks</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/carbon.js') }}"></script>
+{% endblock %}

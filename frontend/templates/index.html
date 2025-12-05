@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2> Green AI Dashboard</h2>
+    <p>Real-time insights for carbon-aware task offloading and execution.</p>
+</div>
+
+<div class="dashboard-grid">
+    <div class="card card-stat" id="live-carbon-card">
+        <h3> Live Carbon Intensity (gCO2eq/kWh)</h3>
+        <div class="stat-large" id="dash-carbon">--</div>
+        <p class="stat-unit" id="dash-region">Region: Loading...</p>
+    </div>
+
+    <div class="card card-stat card-success">
+        <h3> Total CO2 Saved</h3>
+        <div class="stat-large" id="dash-saved">0.00</div>
+        <p class="stat-unit">grams (Since last report)</p>
+    </div>
+
+    <div class="card card-stat">
+        <h3> Tasks Executed</h3>
+        <div class="stat-large" id="dash-tasks">0</div>
+        <p class="stat-unit">tasks (Today)</p>
+    </div>
+
+    <div class="card card-stat card-primary">
+        <h3>⚡ Best Region Now</h3>
+        <div class="stat-large" id="dash-best">Loading...</div>
+        <p class="stat-unit">for minimal carbon footprint</p>
+    </div>
+</div>
+
+<div class="card-wide">
+    <h3> Carbon Monitor Live Chart</h3>
+    <canvas id="liveCarbonChart" style="max-height: 300px;"></canvas>
+    <small>Live data for IN-WE region (India West - Mumbai equivalent)</small>
+</div>
+
+<div class="card-wide">
+    <h3>💡 Quick Actions</h3>
+    <div class="action-buttons">
+        <a href="{{ url_for('tasks') }}" class="btn btn-success">
+            <i class="fas fa-rocket"></i> Run a New Task
+        </a>
+        <a href="{{ url_for('chat') }}" class="btn btn-primary">
+            <i class="fas fa-comments"></i> Ask Green AI
+        </a>
+        <a href="{{ url_for('carbon') }}" class="btn btn-secondary">
+            <i class="fas fa-chart-line"></i> View Carbon History
+        </a>
+        <a href="{{ url_for('reports') }}" class="btn btn-info">
+            <i class="fas fa-file-invoice"></i> View Reports
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/carbon.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

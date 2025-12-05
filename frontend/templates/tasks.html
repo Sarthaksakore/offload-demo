@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Task Runner{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2> Smart Task Offloading</h2>
+    <p>Upload your Python ML task as a ZIP file. Our system will use the ML model to decide the optimal execution location (Local, Mumbai, or Stockholm) to minimize carbon footprint.</p>
+</div>
+
+<div class="upload-section">
+    <div class="card upload-card" id="upload-area">
+        <div class="upload-icon"><i class="fas fa-upload"></i></div>
+        <h3>Drop your ZIP file here</h3>
+        <p>or click to browse. Structure: ZIP should contain your Python script (e.g., <code>train.py</code>).</p>
+        <input type="file" id="file-input" accept=".zip" style="display: none;">
+    </div>
+    <div class="card" id="file-info-card" style="display: none;">
+        <h3>📄 Selected File</h3>
+        <div id="file-info"></div>
+        <button class="btn btn-success btn-large" id="run-task-btn" onclick="runTask()">
+            <i class="fas fa-rocket"></i> Execute Task
+        </button>
+    </div>
+</div>
+
+<div class="card-wide" id="task-status-card" style="display: none;">
+    <h3> Task Status & Logs</h3>
+    <div id="task-status">
+        <div class="log-message">Awaiting task execution...</div>
+    </div>
+    <div id="output-download" style="margin-top: 20px; display: none;">
+        <p><strong>✅ Task Complete!</strong></p>
+        <a id="download-link" href="#" class="btn btn-info" target="_blank">
+            <i class="fas fa-download"></i> Download Output ZIP
+        </a>
+        <button class="btn btn-primary" onclick="window.location.reload()">
+            <i class="fas fa-redo"></i> Run Another Task
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/task.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>GreenAI Helper</title>
+</head>
+<body>
+  <h2>🌱 Green AI – Greener Suggestions</h2>
+
+  <textarea id="question" rows="5" cols="80"
+    placeholder="Describe your code / ML training / task here..."></textarea>
+  <br /><br />
+
+  <button id="askBtn">Ask GreenAI</button>
+
+  <pre id="answer" style="white-space: pre-wrap; margin-top: 16px;"></pre>
+
+  <script>
+    const btn = document.getElementById('askBtn');
+    const questionEl = document.getElementById('question');
+    const answerEl = document.getElementById('answer');
+
+    btn.onclick = async () => {
+      const question = questionEl.value.trim();
+      if (!question) {
+        alert('Type a question first');
+        return;
+      }
+
+      answerEl.textContent = 'Thinking...';
+
+      try {
+        const res = await fetch('http://localhost:8000/greenai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await res.json();
+        if (data.error) {
+          answerEl.textContent = 'Error: ' + data.error;
+        } else {
+          answerEl.textContent = data.answer;
+        }
+      } catch (err) {
+        answerEl.textContent = 'Error talking to backend: ' + err;
+      }
+    };
+  </script>
+</body>
+</html>

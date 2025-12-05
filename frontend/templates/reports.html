@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Reports & Billing{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2>📈 CO2 Savings Reports & Estimated Billing</h2>
+    <p>View your carbon savings and estimated costs for cloud usage.</p>
+</div>
+
+<div class="card-wide">
+    <h3>☁️ Estimated Cloud Billing (Hypothetical)</h3>
+    <p>Based on our offloading decisions, here is the estimated cost (assuming a rate of <strong>$0.05 per hour</strong> of execution on a cloud VM):</p>
+    <div class="billing-stat-grid">
+        <div class="card card-stat">
+            <h3>Total Cloud Hours</h3>
+            <div class="stat-large" id="bill-hours">0.00</div>
+            <p class="stat-unit">hours</p>
+        </div>
+        <div class="card card-stat card-danger">
+            <h3>Estimated Cost</h3>
+            <div class="stat-large" id="bill-cost">$0.00</div>
+            <p class="stat-unit">USD</p>
+        </div>
+    </div>
+</div>
+
+<div class="card-wide">
+    <h3>📂 CO2 Savings Reports (CSV)</h3>
+    <p>Each report tracks the carbon impact and savings for executed tasks. Download the CSV for detailed analysis.</p>
+    <button class="btn btn-secondary" onclick="loadReports()">
+        <i class="fas fa-sync-alt"></i> Refresh Reports List
+    </button>
+    <table class="data-table" id="reports-table">
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>Last Modified</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="4">Loading reports...</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+{% endblock %}

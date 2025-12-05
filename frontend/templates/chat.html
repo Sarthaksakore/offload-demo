@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Green AI Chat{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2> Green AI Assistant</h2>
+    <p>Chat with our carbon-aware AI assistant. You can use custom prompts to guide task execution.</p>
+</div>
+
+<div class="chat-layout">
+    <div class="chat-container card chat-card">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message ai-message">
+                <strong>Green AI:</strong>
+                <p>Hello! 👋 I'm your Green AI assistant. I'm powered by local Ollama models. Ask me anything about sustainable computing, AI optimization, or general questions!</p>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <textarea
+                id="chat-input"
+                placeholder="Ask about sustainable AI, code optimization, or provide a task prompt..."
+                rows="3"
+            ></textarea>
+            <button class="btn btn-primary" id="send-btn" onclick="sendChatMessage()">
+                Send <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="custom-prompt-card card">
+        <h3> Custom Task Prompts</h3>
+        <p>Use these templates to instruct the AI/Task Runner:</p>
+        <button class="btn btn-secondary btn-sm" onclick="setPrompt('Analyze the uploaded ZIP file (my_task.zip) and decide if it should run locally or offload to the best low-carbon region (Mumbai or Stockholm). Then, run the task and summarize the output and CO2 impact.')">
+            Offload Decision Prompt
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="setPrompt('Run the task contained in the uploaded ZIP file (my_task.zip) on the local machine and provide the execution logs.')">
+            Local Execution Prompt
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="setPrompt('Summarize the latest carbon intensity data for all available regions.')">
+            Carbon Summary Prompt
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

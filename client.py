@@ -1,37 +1,23 @@
 # client.py
 import requests
-import zipfile
-import os
 import sys
 
-CLOUD_URL = "https://<YOUR_RENDER_URL>/run-task"  # replace after deploy
+BASE_URL = "http://13.127.171.164:8000"  # your Render URL
 
-def make_zip(src_folder="task", zip_name="task.zip"):
-    if os.path.exists(zip_name):
-        os.remove(zip_name)
-    with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zf:
-        for root, dirs, files in os.walk(src_folder):
-            for file in files:
-                full = os.path.join(root, file)
-                arcname = os.path.relpath(full, start=src_folder)
-                zf.write(full, arcname=os.path.join("task", arcname))
-    return zip_name
+def run_task(zip_path: str):
+    url = f"{BASE_URL}/run-task"   # 👈 IMPORTANT: /run-task
+    files = {"file": open(zip_path, "rb")}
 
-def offload_and_get_output(url):
-    zfile = make_zip()
-    with open(zfile, "rb") as f:
-        print("Uploading task.zip to cloud...")
-        r = requests.post(url, files={"file": f}, timeout=120)
-    if r.status_code == 200:
-        with open("output.zip", "wb") as out:
-            out.write(r.content)
-        print("Received output.zip — saved locally.")
+    print(f"Uploading {zip_path} to cloud...")
+    resp = requests.post(url, files=files)
+
+    if resp.status_code == 200:
+        with open("output.zip", "wb") as f:
+            f.write(resp.content)
+        print("Got output.zip from cloud!")
     else:
-        print("Cloud error:", r.status_code, r.text)
+        print(f"Cloud error: {resp.status_code} {resp.text}")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        url = sys.argv[1]
-    else:
-        url = CLOUD_URL
-    offload_and_get_output(url)
+    zip_path = "task.zip" if len(sys.argv) < 2 else sys.argv[1]
+    run_task(zip_path)
